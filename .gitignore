@@ -13,3 +13,4 @@
 *.ipr
 *.iws
 *.config
+**/environment-compose.yaml
