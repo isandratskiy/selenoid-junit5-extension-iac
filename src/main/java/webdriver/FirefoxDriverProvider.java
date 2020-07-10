@@ -13,6 +13,9 @@ public class FirefoxDriverProvider {
     public static FirefoxOptions getOptions() {
         var options = new FirefoxOptions();
         options.addArguments("--no-sandbox");
+        options.setCapability("noProxy", true);
+        options.setCapability("enableVNC", true);
+        options.setCapability("enableVideo", false);
         options.addArguments("--disable-web-security");
         options.setAcceptInsecureCerts(true);
         options.setHeadless(false);

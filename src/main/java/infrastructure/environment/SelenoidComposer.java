@@ -1,26 +1,39 @@
-package infrastructure.compose;
+package infrastructure.environment;
 
+import docker.client.DockerCLI;
 import docker.compose.DockerComposeClient;
 import infrastructure.model.environment.EnvironmentModel;
 import infrastructure.model.service.ServiceModel;
 import infrastructure.model.service.ServicesModel;
 
-import java.io.File;
-
 import static java.util.Arrays.asList;
 
 public class SelenoidComposer implements ComposableEnvironment {
+    private static final DockerCLI DOCKER_CLI = new DockerCLI();
     private static final String SELENOID = "selenoid";
-    private static final String SELENOID_UI = "selenoid-ui";
     private static final String BRIDGE = "bridge";
     private static final String SELENOID_IMAGE = "aerokube/selenoid:latest-release";
     private static final String SELENOID_UI_IMAGE = "aerokube/selenoid-ui:latest-release";
 
-    private DockerComposeClient dockerComposeClient;
+    private final DockerComposeClient dockerComposeClient;
+
+    public SelenoidComposer(String composeName) {
+        this.dockerComposeClient = new DockerComposeClient(getCompose(composeName));
+    }
 
     @Override
-    public void start(String composeSource) {
-        this.dockerComposeClient = new DockerComposeClient(compose(new File(composeSource)));
+    public void pullChrome() {
+        DOCKER_CLI.pull("selenoid/vnc_chrome", "83.0");
+    }
+
+    @Override
+    public void pullFirefox() {
+        DOCKER_CLI.pull("selenoid/vnc_firefox", "78.0");
+    }
+
+    @Override
+    public void start() {
+        this.dockerComposeClient.start();
     }
 
     @Override
@@ -36,7 +49,6 @@ public class SelenoidComposer implements ComposableEnvironment {
                         new ServicesModel()
                                 .setSelenoid(
                                         new ServiceModel()
-                                                .setContainerName(SELENOID)
                                                 .setNetworkMode(BRIDGE)
                                                 .setImage(SELENOID_IMAGE)
                                                 .setVolumes(asList(
@@ -59,7 +71,6 @@ public class SelenoidComposer implements ComposableEnvironment {
                                 )
                                 .setSelenoidUi(
                                         new ServiceModel()
-                                                .setContainerName(SELENOID_UI)
                                                 .setNetworkMode(BRIDGE)
                                                 .setImage(SELENOID_UI_IMAGE)
                                                 .setDependsOn(asList(SELENOID))

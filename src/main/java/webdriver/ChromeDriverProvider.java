@@ -17,6 +17,9 @@ public class ChromeDriverProvider {
         var options = new ChromeOptions();
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-gpu");
+        options.setCapability("noProxy", true);
+        options.setCapability("enableVNC", true);
+        options.setCapability("enableVideo", false);
         options.setExperimentalOption("excludeSwitches", singletonList("enable-automation"));
         options.setExperimentalOption("useAutomationExtension", false);
         options.setExperimentalOption("prefs", disablePasswordManager());

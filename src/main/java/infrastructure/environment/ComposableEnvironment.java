@@ -1,4 +1,4 @@
-package infrastructure.compose;
+package infrastructure.environment;
 
 import docker.client.DockerCLI;
 import infrastructure.model.environment.EnvironmentModel;
@@ -14,23 +14,27 @@ public interface ComposableEnvironment {
 
     EnvironmentModel buildEnvironment();
 
-    void start(String composeSource);
+    void pullChrome();
+
+    void pullFirefox();
+
+    void start();
 
     void stop();
 
-    default File compose(File file) {
-        return getYaml(file, buildEnvironment());
+    default File getCompose(final String  file) {
+        return getYaml(new File(file), buildEnvironment());
     }
 
-    default File compose(File file, EnvironmentModel environment) {
-        return getYaml(file, environment);
+    default File getCompose(final String file, final EnvironmentModel environment) {
+        return getYaml(new File(file), environment);
     }
 
-    default String getLocalInstance(String servicePort) {
+    default String getLocalInstance(final String servicePort) {
         return format("http://0.0.0.0:%s/wd/hub", servicePort);
     }
 
-    default void isHubRunning(DockerCLI client, String serviceName) {
+    default void isHubRunning(final DockerCLI client, final String serviceName) {
         await().until(() -> client.warmingUp(serviceName, ofSeconds(5)));
     }
 }
