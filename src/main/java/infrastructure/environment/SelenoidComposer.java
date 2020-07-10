@@ -52,7 +52,7 @@ public class SelenoidComposer implements ComposableEnvironment {
                                                 .setNetworkMode(BRIDGE)
                                                 .setImage(SELENOID_IMAGE)
                                                 .setVolumes(asList(
-                                                        "$PWD:/etc/selenoid",
+                                                        ".:/etc/selenoid", //$PWD
                                                         "/var/run/docker.sock:/var/run/docker.sock"
                                                 ))
                                                 .setCommand(asList(

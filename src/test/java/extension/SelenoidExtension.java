@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.GLOBAL;
 import static webdriver.WebDriverFactory.*;
 
 public class SelenoidExtension implements BeforeAllCallback, BeforeEachCallback, AfterEachCallback, CloseableResource  {
-    private static final ComposableEnvironment ENVIRONMENT = new SelenoidComposer("docker-compose.yaml");
+    private static final ComposableEnvironment ENVIRONMENT = new SelenoidComposer("environment-compose.yaml");
     private static boolean systemReady = false;
 
     synchronized private static void environmentSetup() {
