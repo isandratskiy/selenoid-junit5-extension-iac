@@ -38,16 +38,6 @@ public class SeleniumGridComposer implements ComposableEnvironment {
     }
 
     @Override
-    public void pullChrome() {
-
-    }
-
-    @Override
-    public void pullFirefox() {
-
-    }
-
-    @Override
     public void start() {
 
     }

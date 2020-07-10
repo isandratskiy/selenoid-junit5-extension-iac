@@ -14,23 +14,22 @@ import static webdriver.WebDriverFactory.*;
 
 public class SelenoidExtension implements BeforeAllCallback, BeforeEachCallback, AfterEachCallback, CloseableResource  {
     private static final ComposableEnvironment ENVIRONMENT = new SelenoidComposer("./src/test/resources/environment-compose.yaml");
-    private static boolean systemReady = false;
+    private static boolean environmentReady = false;
 
     synchronized private static void environmentSetup() {
-        if (!systemReady) {
-            ENVIRONMENT.pullChrome();
-            ENVIRONMENT.pullFirefox();
+        if (!environmentReady) {
+            System.out.println("::::: SETUP ENVIRONMENT :::::");
             ENVIRONMENT.start();
             checkInstanceState(ENVIRONMENT.getLocalInstance("4444"));
             baseUrl = "https://the-internet.herokuapp.com";
-            systemReady = true;
+            environmentReady = true;
         }
     }
 
     @Override
     public void beforeAll(ExtensionContext context) {
         environmentSetup();
-        context.getRoot().getStore(GLOBAL).put(systemReady, this);
+        context.getRoot().getStore(GLOBAL).put(environmentReady, this);
     }
 
     @Override
@@ -46,5 +45,6 @@ public class SelenoidExtension implements BeforeAllCallback, BeforeEachCallback,
     @Override
     public void close() {
         ENVIRONMENT.stop();
+        System.out.println("::::: SHUTDOWN ENVIRONMENT :::::");
     }
 }

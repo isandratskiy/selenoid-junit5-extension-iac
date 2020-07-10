@@ -21,18 +21,18 @@ public class SelenoidComposer implements ComposableEnvironment {
         this.dockerComposeClient = new DockerComposeClient(getCompose(composeName));
     }
 
-    @Override
     public void pullChrome() {
-        DOCKER_CLI.pull("selenoid/vnc_chrome", "83.0");
+        pull(DOCKER_CLI,"selenoid/vnc_chrome", "83.0");
     }
 
-    @Override
     public void pullFirefox() {
-        DOCKER_CLI.pull("selenoid/vnc_firefox", "78.0");
+        pull(DOCKER_CLI,"selenoid/vnc_firefox", "78.0");
     }
 
     @Override
     public void start() {
+        this.pullChrome();
+        this.pullFirefox();
         this.dockerComposeClient.start();
     }
 
@@ -79,7 +79,7 @@ public class SelenoidComposer implements ComposableEnvironment {
                                                         "--selenoid-uri",
                                                         "http://selenoid:4444"
                                                 ))
-                                                .setPorts(asList("8081:8080"))
+                                                .setPorts(asList("8080:8080"))
                                 )
                 );
     }

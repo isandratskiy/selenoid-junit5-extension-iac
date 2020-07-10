@@ -14,13 +14,13 @@ public interface ComposableEnvironment {
 
     EnvironmentModel buildEnvironment();
 
-    void pullChrome();
-
-    void pullFirefox();
-
     void start();
 
     void stop();
+
+    default void pull(final DockerCLI client, final String image, final String tag) {
+        client.pull(image, tag);
+    }
 
     default File getCompose(final String  file) {
         return getYaml(new File(file), buildEnvironment());

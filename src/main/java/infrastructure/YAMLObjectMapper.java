@@ -23,7 +23,7 @@ public final class YAMLObjectMapper {
     }
 
     @SneakyThrows
-    public static File getYaml(File file, EnvironmentModel model) {
+    public static File getYaml(final File file, final EnvironmentModel model) {
         OBJECT_MAPPER.writeValue(file, model);
         return file;
     }
