@@ -26,7 +26,7 @@ object Version {
 }
 
 dependencies {
-    implementation("org.slf4j", "slf4j-simple", Version.SLF4J)
+    runtimeOnly("org.slf4j", "slf4j-simple", Version.SLF4J)
     implementation("com.google.flogger", "flogger-system-backend", Version.FLOGGER)
     implementation("com.google.flogger", "flogger", Version.FLOGGER)
     implementation("org.apache.commons", "commons-lang3", Version.APACHE_COMMONS)
@@ -38,7 +38,7 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat", "jackson-dataformat-yaml", Version.JACKSON_DATAFORMAT)
     implementation("com.fasterxml.jackson.core", "jackson-databind", Version.JACKSON)
     implementation("org.awaitility", "awaitility", Version.AWAITILITY)
-    implementation("org.junit.jupiter", "junit-jupiter", Version.JUNIT)
+    testImplementation("org.junit.jupiter", "junit-jupiter", Version.JUNIT)
 }
 
 configure<JavaPluginConvention> {
@@ -50,9 +50,6 @@ tasks.test {
 }
 
 tasks {
-    register<Test>("testAll") {
-    }
-
     withType(Test::class) {
         useJUnitPlatform()
 
