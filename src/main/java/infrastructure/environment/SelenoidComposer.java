@@ -17,15 +17,17 @@ public class SelenoidComposer implements ComposableEnvironment {
 
     private final DockerComposeClient dockerComposeClient;
 
-    public SelenoidComposer(String composeName) {
+    public SelenoidComposer(final String composeName) {
         this.dockerComposeClient = new DockerComposeClient(getCompose(composeName));
     }
 
     public void pullChrome() {
+        System.out.println(":::::::::::::::\n PULL CHROME \n:::::::::::::::");
         pull(DOCKER_CLI,"selenoid/vnc_chrome", "83.0");
     }
 
     public void pullFirefox() {
+        System.out.println(":::::::::::::::\n PULL FIREFOX \n:::::::::::::::");
         pull(DOCKER_CLI,"selenoid/vnc_firefox", "78.0");
     }
 

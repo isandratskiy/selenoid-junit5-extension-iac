@@ -27,7 +27,7 @@ public class DockerCLI {
                 .exec();
     }
 
-    public Container getContainerByName(String name) {
+    public Container getContainerByName(final String name) {
         return this.getContainers().stream()
                 .filter(container -> container.getNames()[0].contains(name))
                 .findFirst()
@@ -35,18 +35,18 @@ public class DockerCLI {
     }
 
     @SneakyThrows
-    public void pull(String image, String tag) {
+    public void pull(final String image, final String tag) {
         this.client.pullImageCmd(image)
                 .withTag(tag)
                 .exec(new PullImageResultCallback())
                 .awaitCompletion(120, SECONDS);
     }
 
-    public boolean isRunning(String name) {
+    public boolean isRunning(final String name) {
         return this.getContainerByName(name).getState().equals("running");
     }
 
-    public boolean warmingUp(String containerName, Duration timer) {
+    public boolean warmingUp(final String containerName, final Duration timer) {
         return this.getContainerByName(containerName).getStatus().contains(valueOf(timer.getSeconds()));
     }
 

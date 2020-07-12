@@ -13,6 +13,6 @@ import static org.junit.jupiter.api.parallel.ExecutionMode.CONCURRENT;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Execution(CONCURRENT)
-@ExtendWith(SelenoidExtension.class)
-public @interface StartEnvironment {
+@ExtendWith(SeleniumExtension.class)
+public @interface StartSeleniumEnvironment {
 }

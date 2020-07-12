@@ -17,7 +17,6 @@ public final class WebDriverFactory {
     private static final String BROWSER_PROPERTY = "browser";
 
     private WebDriverFactory() {
-
     }
 
     public static void createDriverInstance(String instance) {
@@ -43,6 +42,7 @@ public final class WebDriverFactory {
             return getWebDriver();
         });
         fakedriver.quit();
+
     }
 
     enum Browser {

@@ -1,6 +1,7 @@
-package tests;
+package tests.selenoid;
 
-import extension.StartEnvironment;
+import extension.StartSelenoidEnvironment;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.AuthenticationType.BASIC;
@@ -11,8 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openqa.selenium.By.tagName;
 import static org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
 
-@StartEnvironment
-public class ConcurrentExampleTest {
+@StartSelenoidEnvironment
+@DisplayName("Concurrent Selenoid tests")
+public class ConcurrentSelenoidExampleTest {
 
     @Test
     void canEditIFrameText() {
