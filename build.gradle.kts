@@ -46,7 +46,6 @@ configure<JavaPluginConvention> {
 }
 
 tasks.test {
-
 }
 
 tasks {

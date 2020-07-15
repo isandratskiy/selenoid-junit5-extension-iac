@@ -10,8 +10,6 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static java.lang.System.getProperty;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.rnorth.ducttape.unreliables.Unreliables.retryUntilSuccess;
-import static webdriver.WebDriverFactory.Browser.REMOTE_CHROME;
-import static webdriver.WebDriverFactory.Browser.REMOTE_FIREFOX;
 
 public final class WebDriverFactory {
     private static final String BROWSER_PROPERTY = "browser";
@@ -22,17 +20,13 @@ public final class WebDriverFactory {
     public static void createDriverInstance(String instance) {
         switch (getBrowserProperty()) {
             case "chrome":
-                REMOTE_CHROME.start(instance);
+                Browser.REMOTE_CHROME.start(instance);
                 break;
             case "firefox":
-                REMOTE_FIREFOX.start(instance);
+                Browser.REMOTE_FIREFOX.start(instance);
                 break;
-            default: throw new IllegalStateException("Wrong browser type " + getBrowserProperty());
+            default: throw new IllegalStateException("Unknown browser type " + getBrowserProperty());
         }
-    }
-
-    public static void shutdownDriverInstance() {
-        getWebDriver().quit();
     }
 
     public static void checkInstanceState(String instance) {
@@ -42,7 +36,10 @@ public final class WebDriverFactory {
             return getWebDriver();
         });
         fakedriver.quit();
+    }
 
+    public static void shutdownDriverInstance() {
+        getWebDriver().quit();
     }
 
     enum Browser {

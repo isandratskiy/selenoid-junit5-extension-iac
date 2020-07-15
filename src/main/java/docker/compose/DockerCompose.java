@@ -4,8 +4,9 @@ import org.testcontainers.containers.DockerComposeContainer;
 
 import java.io.File;
 
-public class DockerComposeClient extends DockerComposeContainer<DockerComposeClient> {
-    public DockerComposeClient(File composeName) {
+public class DockerCompose extends DockerComposeContainer<DockerCompose> {
+
+    public DockerCompose(File composeName) {
         super(composeName);
         this.withLocalCompose(true);
     }

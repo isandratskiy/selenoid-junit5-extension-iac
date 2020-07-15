@@ -1,7 +1,7 @@
 package infrastructure.environment;
 
 import docker.client.DockerCLI;
-import docker.compose.DockerComposeClient;
+import docker.compose.DockerCompose;
 import infrastructure.model.environment.EnvironmentModel;
 import infrastructure.model.service.ServiceModel;
 import infrastructure.model.service.ServicesModel;
@@ -15,10 +15,10 @@ public class SelenoidComposer implements ComposableEnvironment {
     private static final String SELENOID_IMAGE = "aerokube/selenoid:latest-release";
     private static final String SELENOID_UI_IMAGE = "aerokube/selenoid-ui:latest-release";
 
-    private final DockerComposeClient dockerComposeClient;
+    private final DockerCompose dockerCompose;
 
     public SelenoidComposer(final String composeName) {
-        this.dockerComposeClient = new DockerComposeClient(getCompose(composeName));
+        this.dockerCompose = new DockerCompose(getCompose(composeName));
     }
 
     public void pullChrome() {
@@ -35,12 +35,12 @@ public class SelenoidComposer implements ComposableEnvironment {
     public void start() {
         this.pullChrome();
         this.pullFirefox();
-        this.dockerComposeClient.start();
+        this.dockerCompose.start();
     }
 
     @Override
     public void stop() {
-        this.dockerComposeClient.stop();
+        this.dockerCompose.stop();
     }
 
     @Override
@@ -81,8 +81,6 @@ public class SelenoidComposer implements ComposableEnvironment {
                                                         "--selenoid-uri",
                                                         "http://selenoid:4444"
                                                 ))
-                                                .setPorts(asList("8080:8080"))
-                                )
-                );
+                                                .setPorts(asList("8080:8080"))));
     }
 }

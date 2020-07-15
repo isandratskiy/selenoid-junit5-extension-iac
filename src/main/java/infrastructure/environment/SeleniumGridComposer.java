@@ -1,6 +1,6 @@
 package infrastructure.environment;
 
-import docker.compose.DockerComposeClient;
+import docker.compose.DockerCompose;
 import infrastructure.model.environment.EnvironmentModel;
 import infrastructure.model.service.ServiceModel;
 import infrastructure.model.service.ServicesModel;
@@ -8,26 +8,28 @@ import infrastructure.model.service.ServicesModel;
 import static java.util.Arrays.asList;
 
 public class SeleniumGridComposer implements ComposableEnvironment {
+    private static final String SELENIUM_HUB = "selenium-hub";
     private static final String SELENIUM_HUB_IMAGE = "selenium/hub:latest";
     private static final String SELENIUM_CHROME_IMAGE = "selenium/node-chrome:latest";
     private static final String SELENIUM_FIREFOX_IMAGE = "selenium/node-firefox:latest";
+    private static final String HUB_HOST = "HUB_HOST=selenium-hub";
+    private static final String HUB_PORT = "HUB_PORT=4444";
 
-    private final DockerComposeClient dockerComposeClient;
+    private final DockerCompose dockerCompose;
 
     public SeleniumGridComposer(final String composeName) {
-        this.dockerComposeClient = new DockerComposeClient(getCompose(composeName));
+        this.dockerCompose = new DockerCompose(getCompose(composeName));
     }
 
     @Override
     public void start() {
-        this.dockerComposeClient.withScaledService("chrome", 4);
-        this.dockerComposeClient.start();
-
+        this.dockerCompose.withScaledService("chrome", 5);
+        this.dockerCompose.start();
     }
 
     @Override
     public void stop() {
-        this.dockerComposeClient.stop();
+        this.dockerCompose.stop();
     }
 
     @Override
@@ -40,31 +42,23 @@ public class SeleniumGridComposer implements ComposableEnvironment {
                                         new ServiceModel()
                                                 .setImage(SELENIUM_CHROME_IMAGE)
                                                 .setEnvironment(asList(
-                                                        "HUB_HOST=selenium-hub",
-                                                        "HUB_PORT=4444"
+                                                        HUB_HOST,
+                                                        HUB_PORT
                                                 ))
-                                                .setDependsOn(asList(
-                                                        "selenium-hub"
-                                                ))
+                                                .setDependsOn(asList(SELENIUM_HUB))
                                 )
                                 .setFirefox(
                                         new ServiceModel()
                                                 .setImage(SELENIUM_FIREFOX_IMAGE)
                                                 .setEnvironment(asList(
-                                                        "HUB_HOST=selenium-hub",
-                                                        "HUB_PORT=4444"
+                                                        HUB_HOST,
+                                                        HUB_PORT
                                                 ))
-                                                .setDependsOn(asList(
-                                                        "selenium-hub"
-                                                ))
+                                                .setDependsOn(asList(SELENIUM_HUB))
                                 )
                                 .setSeleniumHub(
                                         new ServiceModel()
                                                 .setImage(SELENIUM_HUB_IMAGE)
-                                                .setPorts(asList(
-                                                        "4445:4444"
-                                                ))
-                                )
-                );
+                                                .setPorts(asList("4445:4444"))));
     }
 }

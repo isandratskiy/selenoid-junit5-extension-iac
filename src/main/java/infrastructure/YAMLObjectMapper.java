@@ -10,16 +10,15 @@ import java.io.File;
 import static com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.*;
 
 public final class YAMLObjectMapper {
+
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper(
             new YAMLFactory()
                     .disable(MINIMIZE_QUOTES)
                     .enable(INDENT_ARRAYS)
                     .enable(USE_PLATFORM_LINE_BREAKS)
-                    .disable(WRITE_DOC_START_MARKER)
-    );
+                    .disable(WRITE_DOC_START_MARKER));
 
     private YAMLObjectMapper() {
-
     }
 
     @SneakyThrows
