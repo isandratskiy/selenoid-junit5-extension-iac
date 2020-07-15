@@ -48,4 +48,19 @@ public class ConcurrentSelenoidExampleTest {
         $(".radius").click();
         $(".flash").shouldHave(matchesText("You logged into a secure area!"));
     }
+
+    @Test
+    void canAddNewElement() {
+        open("/add_remove_elements/");
+        $("[onclick*='addElement']").click();
+        $(".added-manually").shouldBe(visible);
+    }
+
+    @Test
+    void canRemoveAddedElement() {
+        open("/add_remove_elements/");
+        $("[onclick*='addElement']").click();
+        $(".added-manually").click();
+        $(".added-manually").shouldBe(disappear);
+    }
 }
