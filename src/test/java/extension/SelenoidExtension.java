@@ -9,11 +9,14 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Store.CloseableResource;
 
 import static com.codeborne.selenide.Configuration.baseUrl;
-import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.GLOBAL;
+import static extension.Environment.SELENOID;
+import static org.junit.jupiter.api.extension.ExtensionContext.Namespace;
+import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.create;
 import static webdriver.WebDriverFactory.*;
 
 public class SelenoidExtension implements BeforeAllCallback, BeforeEachCallback, AfterEachCallback, CloseableResource {
     private static final ComposableEnvironment ENVIRONMENT = new SelenoidComposer("./src/test/resources/selenoid-compose.yaml");
+    private static final Namespace NAMESPACE = create(SELENOID);
     private static boolean selenoidReady = false;
 
     synchronized private static void environmentSetup() {
@@ -30,7 +33,7 @@ public class SelenoidExtension implements BeforeAllCallback, BeforeEachCallback,
     @Override
     public void beforeAll(ExtensionContext context) {
         environmentSetup();
-        context.getRoot().getStore(GLOBAL).put(selenoidReady, this);
+        context.getRoot().getStore(NAMESPACE).put(selenoidReady, this);
     }
 
     @Override

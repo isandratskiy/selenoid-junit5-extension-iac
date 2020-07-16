@@ -23,12 +23,12 @@ public class SelenoidComposer implements ComposableEnvironment {
 
     public void pullChrome() {
         System.out.println(":::::::::::::::\n PULL CHROME \n:::::::::::::::");
-        pull(DOCKER_CLI,"selenoid/vnc_chrome", "83.0");
+        this.pull(DOCKER_CLI,"selenoid/vnc_chrome", "83.0");
     }
 
     public void pullFirefox() {
         System.out.println(":::::::::::::::\n PULL FIREFOX \n:::::::::::::::");
-        pull(DOCKER_CLI,"selenoid/vnc_firefox", "78.0");
+        this.pull(DOCKER_CLI,"selenoid/vnc_firefox", "78.0");
     }
 
     @Override

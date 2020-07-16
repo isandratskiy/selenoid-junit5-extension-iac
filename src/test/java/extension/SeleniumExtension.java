@@ -8,12 +8,15 @@ import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
 import static com.codeborne.selenide.Configuration.baseUrl;
-import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.GLOBAL;
+import static extension.Environment.SELENIUM_GRID;
+import static org.junit.jupiter.api.extension.ExtensionContext.Namespace;
+import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.create;
 import static org.junit.jupiter.api.extension.ExtensionContext.Store.CloseableResource;
 import static webdriver.WebDriverFactory.*;
 
 public class SeleniumExtension implements BeforeAllCallback, BeforeEachCallback, AfterEachCallback, CloseableResource {
     private static final ComposableEnvironment ENVIRONMENT = new SeleniumGridComposer("./src/test/resources/selenium-compose.yaml");
+    private static final Namespace NAMESPACE = create(SELENIUM_GRID);
     private static boolean gridReady = false;
 
     synchronized private static void environmentSetup() {
@@ -30,7 +33,7 @@ public class SeleniumExtension implements BeforeAllCallback, BeforeEachCallback,
     @Override
     public void beforeAll(ExtensionContext context) {
         environmentSetup();
-        context.getRoot().getStore(GLOBAL).put(gridReady, this);
+        context.getRoot().getStore(NAMESPACE).put(gridReady, this);
     }
 
     @Override
