@@ -35,30 +35,30 @@ public class SeleniumGridComposer implements ComposableEnvironment {
     @Override
     public EnvironmentModel buildEnvironment() {
         return new EnvironmentModel()
-                .setVersion("3.4")
-                .setServices(
+                .version("3.4")
+                .services(
                         new ServicesModel()
-                                .setChrome(
+                                .chrome(
                                         new ServiceModel()
-                                                .setImage(SELENIUM_CHROME_IMAGE)
-                                                .setEnvironment(asList(
+                                                .image(SELENIUM_CHROME_IMAGE)
+                                                .environment(asList(
                                                         HUB_HOST,
                                                         HUB_PORT
                                                 ))
-                                                .setDependsOn(asList(SELENIUM_HUB))
+                                                .dependsOn(asList(SELENIUM_HUB))
                                 )
-                                .setFirefox(
+                                .firefox(
                                         new ServiceModel()
-                                                .setImage(SELENIUM_FIREFOX_IMAGE)
-                                                .setEnvironment(asList(
+                                                .image(SELENIUM_FIREFOX_IMAGE)
+                                                .environment(asList(
                                                         HUB_HOST,
                                                         HUB_PORT
                                                 ))
-                                                .setDependsOn(asList(SELENIUM_HUB))
+                                                .dependsOn(asList(SELENIUM_HUB))
                                 )
-                                .setSeleniumHub(
+                                .seleniumHub(
                                         new ServiceModel()
-                                                .setImage(SELENIUM_HUB_IMAGE)
-                                                .setPorts(asList("4445:4444"))));
+                                                .image(SELENIUM_HUB_IMAGE)
+                                                .ports(asList("4445:4444"))));
     }
 }

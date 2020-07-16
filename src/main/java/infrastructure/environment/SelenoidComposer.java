@@ -46,18 +46,18 @@ public class SelenoidComposer implements ComposableEnvironment {
     @Override
     public EnvironmentModel buildEnvironment() {
         return new EnvironmentModel()
-                .setVersion("3.4")
-                .setServices(
+                .version("3.4")
+                .services(
                         new ServicesModel()
-                                .setSelenoid(
+                                .selenoid(
                                         new ServiceModel()
-                                                .setNetworkMode(BRIDGE)
-                                                .setImage(SELENOID_IMAGE)
-                                                .setVolumes(asList(
+                                                .networkMode(BRIDGE)
+                                                .image(SELENOID_IMAGE)
+                                                .volumes(asList(
                                                         ".:/etc/selenoid", //$PWD
                                                         "/var/run/docker.sock:/var/run/docker.sock"
                                                 ))
-                                                .setCommand(asList(
+                                                .command(asList(
                                                         "-conf",
                                                         "/etc/selenoid/browsers.json",
                                                         "-service-startup-timeout",
@@ -69,18 +69,18 @@ public class SelenoidComposer implements ComposableEnvironment {
                                                         "-timeout",
                                                         "5m0s"
                                                 ))
-                                                .setPorts(asList("4444:4444"))
+                                                .ports(asList("4444:4444"))
                                 )
-                                .setSelenoidUi(
+                                .selenoidUi(
                                         new ServiceModel()
-                                                .setNetworkMode(BRIDGE)
-                                                .setImage(SELENOID_UI_IMAGE)
-                                                .setDependsOn(asList(SELENOID))
-                                                .setLinks(asList(SELENOID))
-                                                .setCommand(asList(
+                                                .networkMode(BRIDGE)
+                                                .image(SELENOID_UI_IMAGE)
+                                                .dependsOn(asList(SELENOID))
+                                                .links(asList(SELENOID))
+                                                .command(asList(
                                                         "--selenoid-uri",
                                                         "http://selenoid:4444"
                                                 ))
-                                                .setPorts(asList("8080:8080"))));
+                                                .ports(asList("8080:8080"))));
     }
 }

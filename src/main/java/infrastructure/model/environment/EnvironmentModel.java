@@ -12,7 +12,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @Setter
 @Getter
-@Accessors(chain = true)
+@Accessors(fluent = true)
 @JsonInclude(NON_NULL)
 @JsonPropertyOrder({
         "version",
