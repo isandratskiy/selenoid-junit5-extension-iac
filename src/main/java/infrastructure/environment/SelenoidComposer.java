@@ -6,7 +6,10 @@ import infrastructure.model.environment.EnvironmentModel;
 import infrastructure.model.service.ServiceModel;
 import infrastructure.model.service.ServicesModel;
 
+import static docker.Logger.logInfo;
+import static infrastructure.configuration.SelenoidConfigurationProvider.*;
 import static java.util.Arrays.asList;
+import static java.util.List.of;
 
 public class SelenoidComposer implements ComposableEnvironment {
     private static final DockerCLI DOCKER_CLI = new DockerCLI();
@@ -22,13 +25,13 @@ public class SelenoidComposer implements ComposableEnvironment {
     }
 
     public void pullChrome() {
-        System.out.println(":::::::::::::::\n PULL CHROME \n:::::::::::::::");
-        this.pull(DOCKER_CLI,"selenoid/vnc_chrome", "83.0");
+        logInfo("::::::::::::::: PULL CHROME :::::::::::::::");
+        this.pull(DOCKER_CLI, "selenoid/vnc_chrome", getChromeVersion());
     }
 
     public void pullFirefox() {
-        System.out.println(":::::::::::::::\n PULL FIREFOX \n:::::::::::::::");
-        this.pull(DOCKER_CLI,"selenoid/vnc_firefox", "78.0");
+        logInfo("::::::::::::::: PULL FIREFOX ::::::::::::::");
+        this.pull(DOCKER_CLI, "selenoid/vnc_firefox", getFirefoxVersion());
     }
 
     @Override
@@ -57,7 +60,7 @@ public class SelenoidComposer implements ComposableEnvironment {
                                                         ".:/etc/selenoid", //$PWD
                                                         "/var/run/docker.sock:/var/run/docker.sock"
                                                 ))
-                                                .command(asList(
+                                                .command(of(
                                                         "-conf",
                                                         "/etc/selenoid/browsers.json",
                                                         "-service-startup-timeout",
@@ -69,18 +72,24 @@ public class SelenoidComposer implements ComposableEnvironment {
                                                         "-timeout",
                                                         "5m0s"
                                                 ))
-                                                .ports(asList("4444:4444"))
+                                                .ports(of(
+                                                        "{PORT}:4444".replace("{PORT}", getSelenoidPort()))
+                                                )
                                 )
                                 .selenoidUi(
                                         new ServiceModel()
                                                 .networkMode(BRIDGE)
                                                 .image(SELENOID_UI_IMAGE)
-                                                .dependsOn(asList(SELENOID))
-                                                .links(asList(SELENOID))
-                                                .command(asList(
+                                                .dependsOn(of(SELENOID))
+                                                .links(of(SELENOID))
+                                                .command(of(
                                                         "--selenoid-uri",
-                                                        "http://selenoid:4444"
-                                                ))
-                                                .ports(asList("8080:8080"))));
+                                                        "http://selenoid:4444")
+                                                )
+                                                .ports(of(
+                                                        "{PORT}:8080".replace("{PORT}", getSelenoidUiPort()))
+                                                )
+                                )
+                );
     }
 }

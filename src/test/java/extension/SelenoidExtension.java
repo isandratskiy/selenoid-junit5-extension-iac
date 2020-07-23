@@ -9,24 +9,29 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Store.CloseableResource;
 
 import static com.codeborne.selenide.Configuration.baseUrl;
+import static docker.Logger.logInfo;
 import static extension.Environment.SELENOID;
+import static infrastructure.configuration.Configuration.buildConfiguration;
+import static infrastructure.configuration.SelenoidConfigurationProvider.getComposePath;
+import static infrastructure.configuration.SelenoidConfigurationProvider.getSelenoidPort;
 import static org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.create;
 import static webdriver.WebDriverFactory.*;
 
 public class SelenoidExtension implements BeforeAllCallback, BeforeEachCallback, AfterEachCallback, CloseableResource {
-    private static final ComposableEnvironment ENVIRONMENT = new SelenoidComposer("./src/test/resources/selenoid-compose.yaml");
     private static final Namespace NAMESPACE = create(SELENOID);
+    private static ComposableEnvironment ENVIRONMENT;
     private static boolean selenoidReady = false;
 
     synchronized private static void environmentSetup() {
         if (!selenoidReady) {
-            System.out.println(":::::::::::::::\n SETUP SELENOID ENVIRONMENT \n:::::::::::::::");
+            buildConfiguration();
+            logInfo("::::::::::::::: SETUP SELENOID ENVIRONMENT :::::::::::::::");
+            ENVIRONMENT = new SelenoidComposer(getComposePath());
             ENVIRONMENT.start();
-            checkInstanceState(ENVIRONMENT.getLocalInstance("4444"));
-            baseUrl = "https://the-internet.herokuapp.com";
+            checkInstanceState(ENVIRONMENT.getLocalInstance(getSelenoidPort()));
             selenoidReady = true;
-            System.out.println(":::::::::::::::\n SELENOID ENVIRONMENT READY \n:::::::::::::::");
+            logInfo("::::::::::::::: SELENOID ENVIRONMENT READY :::::::::::::::");
         }
     }
 
@@ -34,11 +39,12 @@ public class SelenoidExtension implements BeforeAllCallback, BeforeEachCallback,
     public void beforeAll(ExtensionContext context) {
         environmentSetup();
         context.getRoot().getStore(NAMESPACE).put(selenoidReady, this);
+        baseUrl = "https://the-internet.herokuapp.com";
     }
 
     @Override
     public void beforeEach(ExtensionContext context) {
-        createDriverInstance(ENVIRONMENT.getLocalInstance("4444"));
+        createDriverInstance(ENVIRONMENT.getLocalInstance(getSelenoidPort()));
     }
 
     @Override
@@ -49,6 +55,6 @@ public class SelenoidExtension implements BeforeAllCallback, BeforeEachCallback,
     @Override
     public void close() {
         ENVIRONMENT.stop();
-        System.out.println("::::::::::::::\n SHUTDOWN SELENOID ENVIRONMENT \n::::::::::::::");
+        logInfo(":::::::::::::: SHUTDOWN SELENOID ENVIRONMENT ::::::::::::::");
     }
 }

@@ -12,7 +12,7 @@ repositories {
 }
 
 object Version {
-    const val FLOGGER = "0.4"
+    const val FLOGGER = "0.5.1"
     const val JUNIT = "5.6.2"
     const val APACHE_COMMONS = "3.9"
     const val JACKSON = "2.10.3"
@@ -23,10 +23,12 @@ object Version {
     const val JACKSON_DATAFORMAT = "2.11.0"
     const val AWAITILITY = "4.0.2"
     const val SLF4J = "1.7.30"
+    const val OWNER = "1.0.10"
 }
 
 dependencies {
     //runtimeOnly("org.slf4j", "slf4j-simple", Version.SLF4J)
+    implementation("org.aeonbits.owner", "owner", Version.OWNER)
     implementation("com.google.flogger", "flogger-system-backend", Version.FLOGGER)
     implementation("com.google.flogger", "flogger", Version.FLOGGER)
     implementation("org.apache.commons", "commons-lang3", Version.APACHE_COMMONS)
@@ -49,6 +51,14 @@ tasks.test {
 }
 
 tasks {
+    register<Test>("withSelenoid") {
+        systemProperties["environment.config"] = "selenoid"
+    }
+
+    register<Test>("withSelenium") {
+        systemProperties["environment.config"] = "selenium"
+    }
+
     withType(Test::class) {
         useJUnitPlatform()
 
@@ -58,5 +68,9 @@ tasks {
             showStandardStreams = true
             events("passed", "failed")
         }
+
+        systemProperties["junit.jupiter.execution.parallel.enabled"] = true
+        systemProperties["junit.jupiter.execution.parallel.config.strategy"] = "fixed"
+        systemProperties["junit.jupiter.execution.parallel.config.fixed.parallelism"] = 10
     }
 }
