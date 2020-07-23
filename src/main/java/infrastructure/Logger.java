@@ -1,4 +1,4 @@
-package docker;
+package infrastructure;
 
 import com.google.common.flogger.FluentLogger;
 

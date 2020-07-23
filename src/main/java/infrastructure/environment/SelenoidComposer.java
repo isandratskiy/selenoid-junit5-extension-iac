@@ -6,7 +6,7 @@ import infrastructure.model.environment.EnvironmentModel;
 import infrastructure.model.service.ServiceModel;
 import infrastructure.model.service.ServicesModel;
 
-import static docker.Logger.logInfo;
+import static infrastructure.Logger.logInfo;
 import static infrastructure.configuration.SelenoidConfigurationProvider.*;
 import static java.util.Arrays.asList;
 import static java.util.List.of;

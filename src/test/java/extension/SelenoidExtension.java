@@ -9,8 +9,8 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Store.CloseableResource;
 
 import static com.codeborne.selenide.Configuration.baseUrl;
-import static docker.Logger.logInfo;
 import static extension.Environment.SELENOID;
+import static infrastructure.Logger.logInfo;
 import static infrastructure.configuration.Configuration.buildConfiguration;
 import static infrastructure.configuration.SelenoidConfigurationProvider.getComposePath;
 import static infrastructure.configuration.SelenoidConfigurationProvider.getSelenoidPort;

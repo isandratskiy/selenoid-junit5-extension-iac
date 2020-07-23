@@ -1,6 +1,6 @@
 package infrastructure.configuration;
 
-import static docker.Logger.logInfo;
+import static infrastructure.Logger.logInfo;
 import static java.lang.System.getProperty;
 import static org.aeonbits.owner.ConfigFactory.setProperty;
 
