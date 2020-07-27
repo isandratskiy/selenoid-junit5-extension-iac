@@ -6,8 +6,11 @@ import static org.aeonbits.owner.Config.Sources;
 
 @Sources({"classpath:configuration/${environment.config}.properties"})
 public interface EnvironmentConfiguration extends Config {
+    @Key("selenoid-browsers.json.source")
+    String getSelenoidBrowsersSource();
+
     @Key("selenoid-compose.source")
-    String getSelenoidComposePath();
+    String getSelenoidComposeSource();
 
     @Key("selenoid.port")
     String getSelenoidPort();

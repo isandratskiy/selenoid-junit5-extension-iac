@@ -11,7 +11,7 @@ import java.util.List;
 
 import static com.github.dockerjava.core.DockerClientBuilder.getInstance;
 import static java.lang.String.valueOf;
-import static java.util.Arrays.asList;
+import static java.util.List.of;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class DockerCLI {
@@ -23,7 +23,7 @@ public class DockerCLI {
 
     public List<Container> getContainers() {
         return this.client.listContainersCmd()
-                .withStatusFilter(asList("running"))
+                .withStatusFilter(of("running"))
                 .exec();
     }
 

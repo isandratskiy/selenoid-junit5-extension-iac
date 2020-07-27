@@ -1,6 +1,7 @@
 package webdriver;
 
 import com.codeborne.selenide.WebDriverProvider;
+import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -12,13 +13,13 @@ public class FirefoxDriverProvider {
 
     public static FirefoxOptions getOptions() {
         var options = new FirefoxOptions();
+        options.setHeadless(false);
+        options.setAcceptInsecureCerts(true);
         options.addArguments("--no-sandbox");
+        options.addArguments("--disable-web-security");
         options.setCapability("noProxy", true);
         options.setCapability("enableVNC", true);
         options.setCapability("enableVideo", false);
-        options.addArguments("--disable-web-security");
-        options.setAcceptInsecureCerts(true);
-        options.setHeadless(false);
         return options;
     }
 
@@ -26,7 +27,7 @@ public class FirefoxDriverProvider {
         private static URL instance;
 
         @Override
-        public WebDriver createDriver(DesiredCapabilities desiredCapabilities) {
+        public @NotNull WebDriver createDriver(@NotNull DesiredCapabilities desiredCapabilities) {
             return new RemoteWebDriver(instance, getOptions());
         }
     }

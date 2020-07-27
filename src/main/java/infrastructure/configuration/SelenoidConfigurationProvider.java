@@ -17,7 +17,11 @@ public final class SelenoidConfigurationProvider {
     }
 
     public static String getComposePath() {
-        return CONFIGURATION.getSelenoidComposePath();
+        return CONFIGURATION.getSelenoidComposeSource();
+    }
+
+    public static String getBrowsersPath() {
+        return CONFIGURATION.getSelenoidBrowsersSource();
     }
 
     public static String getChromeVersion() {

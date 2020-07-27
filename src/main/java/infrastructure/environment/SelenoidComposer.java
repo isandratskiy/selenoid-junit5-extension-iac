@@ -1,13 +1,17 @@
 package infrastructure.environment;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import docker.client.DockerCLI;
 import docker.compose.DockerCompose;
 import infrastructure.model.environment.EnvironmentModel;
 import infrastructure.model.service.ServiceModel;
 import infrastructure.model.service.ServicesModel;
+import lombok.SneakyThrows;
 
 import static infrastructure.Logger.logInfo;
 import static infrastructure.configuration.SelenoidConfigurationProvider.*;
+import static java.nio.file.Files.write;
+import static java.nio.file.Paths.get;
 import static java.util.Arrays.asList;
 import static java.util.List.of;
 
@@ -21,6 +25,7 @@ public class SelenoidComposer implements ComposableEnvironment {
     private final DockerCompose dockerCompose;
 
     public SelenoidComposer(final String composeName) {
+        this.buildBrowsersJson();
         this.dockerCompose = new DockerCompose(getCompose(composeName));
     }
 
@@ -32,6 +37,15 @@ public class SelenoidComposer implements ComposableEnvironment {
     public void pullFirefox() {
         logInfo("::::::::::::::: PULL FIREFOX ::::::::::::::");
         this.pull(DOCKER_CLI, "selenoid/vnc_firefox", getFirefoxVersion());
+    }
+
+    @SneakyThrows
+    private void buildBrowsersJson() {
+        var template = new ObjectMapper().readTree(get("src/test/resources/browsers-template.json").toFile()).toPrettyString();
+        var result = template
+                .replaceAll("CHROME.VERSION", getChromeVersion())
+                .replaceAll("FIREFOX.VERSION", getFirefoxVersion());
+        write(get(getBrowsersPath()), result.getBytes());
     }
 
     @Override

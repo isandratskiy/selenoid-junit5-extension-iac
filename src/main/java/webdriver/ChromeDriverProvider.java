@@ -1,15 +1,18 @@
 package webdriver;
 
 import com.codeborne.selenide.WebDriverProvider;
+import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
-import java.util.HashMap;
+import java.util.Map;
 
-import static java.util.Collections.singletonList;
+import static java.util.List.of;
+import static java.util.Map.entry;
+import static java.util.Map.ofEntries;
 
 public class ChromeDriverProvider {
 
@@ -20,7 +23,7 @@ public class ChromeDriverProvider {
         options.setCapability("noProxy", true);
         options.setCapability("enableVNC", true);
         options.setCapability("enableVideo", false);
-        options.setExperimentalOption("excludeSwitches", singletonList("enable-automation"));
+        options.setExperimentalOption("excludeSwitches", of("enable-automation"));
         options.setExperimentalOption("useAutomationExtension", false);
         options.setExperimentalOption("prefs", disablePasswordManager());
         options.setAcceptInsecureCerts(true);
@@ -28,18 +31,17 @@ public class ChromeDriverProvider {
         return options;
     }
 
-    private static HashMap<String, Boolean> disablePasswordManager() {
-        var preference = new HashMap<String, Boolean>();
-        preference.put("credentials_enable_service", false);
-        preference.put("profile.password_manager_enabled", false);
-        return preference;
+    private static Map<String, Boolean> disablePasswordManager() {
+        return ofEntries(
+                entry("credentials_enable_service", false),
+                entry("profile.password_manager_enabled", false));
     }
 
     static class Remote implements WebDriverProvider {
         private static URL instance;
 
         @Override
-        public WebDriver createDriver(DesiredCapabilities desiredCapabilities) {
+        public @NotNull WebDriver createDriver(@NotNull DesiredCapabilities desiredCapabilities) {
             return new RemoteWebDriver(instance, getOptions());
         }
     }

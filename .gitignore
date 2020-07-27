@@ -14,3 +14,4 @@
 *.iws
 *.config
 **/*compose.yaml
+**/browsers.json

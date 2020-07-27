@@ -48,19 +48,25 @@ configure<JavaPluginConvention> {
 }
 
 tasks.test {
+    useJUnitPlatform()
 }
 
 tasks {
     register<Test>("withSelenoid") {
-        systemProperties["environment.config"] = "selenoid"
+        useJUnitPlatform {
+            includeTags = setOf("selenoid")
+        }
+        systemProperties["environment.config"] = "remote"
     }
 
     register<Test>("withSelenium") {
-        systemProperties["environment.config"] = "selenium"
+        useJUnitPlatform {
+            includeTags = setOf("selenium")
+        }
+        systemProperties["environment.config"] = "remote"
     }
 
     withType(Test::class) {
-        useJUnitPlatform()
 
         testLogging {
             showStackTraces = false
