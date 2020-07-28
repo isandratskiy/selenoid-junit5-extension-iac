@@ -20,16 +20,16 @@ import static webdriver.WebDriverFactory.*;
 
 public class SelenoidExtension implements BeforeAllCallback, BeforeEachCallback, AfterEachCallback, CloseableResource {
     private static final Namespace NAMESPACE = create(SELENOID);
-    private static ComposableEnvironment ENVIRONMENT;
+    private static ComposableEnvironment environment;
     private static boolean selenoidReady = false;
 
     synchronized private static void environmentSetup() {
         if (!selenoidReady) {
             buildConfiguration();
             logInfo("::::::::::::::: SETUP SELENOID ENVIRONMENT :::::::::::::::");
-            ENVIRONMENT = new SelenoidComposer(getComposePath());
-            ENVIRONMENT.start();
-            checkInstanceState(ENVIRONMENT.getLocalInstance(getSelenoidPort()));
+            environment = new SelenoidComposer(getComposePath());
+            environment.start();
+            checkInstanceState(environment.getLocalInstance(getSelenoidPort()));
             selenoidReady = true;
             logInfo("::::::::::::::: SELENOID ENVIRONMENT READY :::::::::::::::");
         }
@@ -44,7 +44,7 @@ public class SelenoidExtension implements BeforeAllCallback, BeforeEachCallback,
 
     @Override
     public void beforeEach(ExtensionContext context) {
-        createDriverInstance(ENVIRONMENT.getLocalInstance(getSelenoidPort()));
+        createDriverInstance(environment.getLocalInstance(getSelenoidPort()));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SelenoidExtension implements BeforeAllCallback, BeforeEachCallback,
 
     @Override
     public void close() {
-        ENVIRONMENT.stop();
+        environment.stop();
         logInfo(":::::::::::::: SHUTDOWN SELENOID ENVIRONMENT ::::::::::::::");
     }
 }

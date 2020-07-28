@@ -20,16 +20,16 @@ import static webdriver.WebDriverFactory.*;
 
 public class SeleniumExtension implements BeforeAllCallback, BeforeEachCallback, AfterEachCallback, CloseableResource {
     private static final Namespace NAMESPACE = create(SELENIUM_GRID);
-    private static ComposableEnvironment ENVIRONMENT;
+    private static ComposableEnvironment environment;
     private static boolean gridReady = false;
 
     synchronized private static void environmentSetup() {
         if (!gridReady) {
             buildConfiguration();
             logInfo("::::::::::::::: SETUP GRID ENVIRONMENT :::::::::::::::");
-            ENVIRONMENT = new SeleniumGridComposer(getComposePath());
-            ENVIRONMENT.start();
-            checkInstanceState(ENVIRONMENT.getLocalInstance(getSeleniumPort()));
+            environment = new SeleniumGridComposer(getComposePath());
+            environment.start();
+            checkInstanceState(environment.getLocalInstance(getSeleniumPort()));
             gridReady = true;
             logInfo("::::::::::::::: GRID ENVIRONMENT READY :::::::::::::::");
         }
@@ -44,7 +44,7 @@ public class SeleniumExtension implements BeforeAllCallback, BeforeEachCallback,
 
     @Override
     public void beforeEach(ExtensionContext context) {
-        createDriverInstance(ENVIRONMENT.getLocalInstance(getSeleniumPort()));
+        createDriverInstance(environment.getLocalInstance(getSeleniumPort()));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SeleniumExtension implements BeforeAllCallback, BeforeEachCallback,
 
     @Override
     public void close() {
-        ENVIRONMENT.stop();
+        environment.stop();
         logInfo(":::::::::::::: SHUTDOWN GRID ENVIRONMENT ::::::::::::::");
     }
 }
