@@ -15,5 +15,5 @@ jobs:
         run: ./gradlew clean test
       - uses: actions/upload-artifact@v2
         with:
-         name: infrastructure
+         name: used_infrastructure
          path: ./src/test/resources/*compose.yaml
