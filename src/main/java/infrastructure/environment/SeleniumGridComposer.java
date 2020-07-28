@@ -6,6 +6,7 @@ import infrastructure.model.service.ServiceModel;
 import infrastructure.model.service.ServicesModel;
 
 import static infrastructure.configuration.SeleniumConfigurationProvider.*;
+import static java.lang.System.getProperty;
 import static java.util.List.of;
 
 public class SeleniumGridComposer implements ComposableEnvironment {
@@ -24,7 +25,9 @@ public class SeleniumGridComposer implements ComposableEnvironment {
 
     @Override
     public void start() {
-        this.dockerCompose.withScaledService("chrome", 5);
+        if (getProperty("browser").contains("chrome"))
+            this.dockerCompose.withScaledService("chrome", 5);
+        else this.dockerCompose.withScaledService("firefox", 5);
         this.dockerCompose.start();
     }
 

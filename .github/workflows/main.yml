@@ -11,8 +11,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.11
-      - name: Run all tests
-        run: ./gradlew clean test
+      - name: Run all chrome tests
+        run: make test
+      - name: Run firefox selenoid tests
+        run: make testSelenoidFirefox
+      - name: Run firefox selenium grid tests
+        run: make testSeleniumFirefox
       - uses: actions/upload-artifact@v2
         with:
          name: used_infrastructure

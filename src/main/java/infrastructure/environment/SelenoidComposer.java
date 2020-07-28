@@ -41,7 +41,7 @@ public class SelenoidComposer implements ComposableEnvironment {
 
     @SneakyThrows
     private void buildBrowsersJson() {
-        var template = new ObjectMapper().readTree(get("src/test/resources/browsers-template.json").toFile()).toPrettyString();
+        var template = new ObjectMapper().readTree(get("src/main/resources/configuration/browsers-template.json").toFile()).toPrettyString();
         var result = template
                 .replaceAll("CHROME.VERSION", getChromeVersion())
                 .replaceAll("FIREFOX.VERSION", getFirefoxVersion());
@@ -78,13 +78,13 @@ public class SelenoidComposer implements ComposableEnvironment {
                                                         "-conf",
                                                         "/etc/selenoid/browsers.json",
                                                         "-service-startup-timeout",
-                                                        "5m0s",
+                                                        "6m0s",
                                                         "-session-attempt-timeout",
-                                                        "5m0s",
+                                                        "6m0s",
                                                         "-session-delete-timeout",
-                                                        "5m0s",
+                                                        "6m0s",
                                                         "-timeout",
-                                                        "5m0s"
+                                                        "6m0s"
                                                 ))
                                                 .ports(of(
                                                         "{PORT}:4444".replace("{PORT}", getSelenoidPort()))

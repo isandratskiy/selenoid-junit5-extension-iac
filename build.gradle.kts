@@ -1,3 +1,5 @@
+import java.lang.System.getProperty
+
 plugins {
     java
     id("io.freefair.lombok") version "4.1.6"
@@ -52,14 +54,14 @@ tasks.test {
 }
 
 tasks {
-    register<Test>("withSelenoid") {
+    register<Test>("testSelenoid") {
         useJUnitPlatform {
             includeTags = setOf("selenoid")
         }
         systemProperties["environment.config"] = "remote"
     }
 
-    register<Test>("withSelenium") {
+    register<Test>("testSelenium") {
         useJUnitPlatform {
             includeTags = setOf("selenium")
         }
@@ -75,8 +77,6 @@ tasks {
             events("passed", "failed")
         }
 
-        systemProperties["junit.jupiter.execution.parallel.enabled"] = true
-        systemProperties["junit.jupiter.execution.parallel.config.strategy"] = "fixed"
-        systemProperties["junit.jupiter.execution.parallel.config.fixed.parallelism"] = 10
+        systemProperties["browser"] = getProperty("browser") ?:"chrome"
     }
 }
