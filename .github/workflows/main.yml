@@ -13,3 +13,7 @@ jobs:
           java-version: 1.11
       - name: Run all tests
         run: ./gradlew clean test
+      - uses: actions/upload-artifact@v2
+        with:
+         name: yamls
+         path: /*compose.yaml
