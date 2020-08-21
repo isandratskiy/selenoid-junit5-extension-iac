@@ -29,7 +29,7 @@ object Version {
 }
 
 dependencies {
-    //runtimeOnly("org.slf4j", "slf4j-simple", Version.SLF4J)
+    runtimeOnly("org.slf4j", "slf4j-simple", Version.SLF4J)
     implementation("org.aeonbits.owner", "owner", Version.OWNER)
     implementation("com.google.flogger", "flogger-system-backend", Version.FLOGGER)
     implementation("com.google.flogger", "flogger", Version.FLOGGER)

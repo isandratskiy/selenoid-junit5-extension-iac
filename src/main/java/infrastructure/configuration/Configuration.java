@@ -6,6 +6,7 @@ import static org.aeonbits.owner.ConfigFactory.setProperty;
 
 public final class Configuration {
     private static final String INFRASTRUCTURE_PROP = "environment.config";
+    private static final String BROWSER_PROPERTY = "browser";
 
     private Configuration() {
     }
@@ -21,5 +22,9 @@ public final class Configuration {
 
     private static String getInfrastructureProperty() {
         return getProperty(INFRASTRUCTURE_PROP, "local");
+    }
+
+    public static String getBrowserProperty() {
+        return getProperty(BROWSER_PROPERTY, "chrome");
     }
 }

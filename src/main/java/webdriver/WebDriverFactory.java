@@ -7,13 +7,11 @@ import java.net.URL;
 import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static java.lang.System.getProperty;
+import static infrastructure.configuration.Configuration.getBrowserProperty;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.rnorth.ducttape.unreliables.Unreliables.retryUntilSuccess;
 
 public final class WebDriverFactory {
-    private static final String BROWSER_PROPERTY = "browser";
-
     private WebDriverFactory() {
     }
 
@@ -61,10 +59,6 @@ public final class WebDriverFactory {
         };
 
         abstract void start(String instance);
-    }
-
-    private static String getBrowserProperty() {
-        return getProperty(BROWSER_PROPERTY, "chrome");
     }
 
     @SneakyThrows
