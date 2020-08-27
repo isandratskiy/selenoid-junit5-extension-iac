@@ -6,7 +6,7 @@ import java.net.URL;
 
 import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static com.codeborne.selenide.WebDriverRunner.*;
 import static infrastructure.configuration.Configuration.getBrowserProperty;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.rnorth.ducttape.unreliables.Unreliables.retryUntilSuccess;
@@ -17,10 +17,10 @@ public final class WebDriverFactory {
 
     public static void createDriverInstance(String instance) {
         switch (getBrowserProperty()) {
-            case "chrome":
+            case CHROME:
                 Browser.REMOTE_CHROME.start(instance);
                 break;
-            case "firefox":
+            case FIREFOX:
                 Browser.REMOTE_FIREFOX.start(instance);
                 break;
             default: throw new IllegalStateException("Unknown browser type " + getBrowserProperty());

@@ -18,7 +18,7 @@ object Version {
     const val JUNIT = "5.6.2"
     const val APACHE_COMMONS = "3.9"
     const val JACKSON = "2.10.3"
-    const val TESTCONTAINERS = "1.13.0"
+    const val TESTCONTAINERS = "1.15.0-rc1"
     const val SELENIDE = "5.13.0"
     const val DOCKER_JAVA = "3.2.5"
     const val SNAKEYAML = "1.26"

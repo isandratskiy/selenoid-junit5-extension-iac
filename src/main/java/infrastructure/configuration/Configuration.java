@@ -1,5 +1,6 @@
 package infrastructure.configuration;
 
+import static com.codeborne.selenide.WebDriverRunner.CHROME;
 import static infrastructure.Logger.logInfo;
 import static java.lang.System.getProperty;
 import static org.aeonbits.owner.ConfigFactory.setProperty;
@@ -25,6 +26,6 @@ public final class Configuration {
     }
 
     public static String getBrowserProperty() {
-        return getProperty(BROWSER_PROPERTY, "chrome");
+        return getProperty(BROWSER_PROPERTY, CHROME);
     }
 }
