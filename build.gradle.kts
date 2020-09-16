@@ -2,14 +2,13 @@ import java.lang.System.getProperty
 
 plugins {
     java
-    id("io.freefair.lombok") version "4.1.6"
+    id("io.freefair.lombok") version "5.2.1"
 }
 
 group = "sandratskyi.io"
 version = "1.0.0"
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
