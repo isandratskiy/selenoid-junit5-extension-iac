@@ -1,7 +1,6 @@
 package webdriver;
 
 import com.codeborne.selenide.WebDriverProvider;
-import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -15,10 +14,8 @@ import static java.util.Map.entry;
 import static java.util.Map.ofEntries;
 
 public class ChromeDriverProvider {
-
     public static ChromeOptions getOptions() {
         var options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
         options.addArguments("--disable-gpu");
         options.setCapability("noProxy", true);
         options.setCapability("enableVNC", true);
@@ -41,7 +38,7 @@ public class ChromeDriverProvider {
         private static URL instance;
 
         @Override
-        public @NotNull WebDriver createDriver(@NotNull DesiredCapabilities desiredCapabilities) {
+        public WebDriver createDriver(DesiredCapabilities desiredCapabilities) {
             return new RemoteWebDriver(instance, getOptions());
         }
     }
